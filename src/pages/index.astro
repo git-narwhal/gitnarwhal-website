@@ -264,11 +264,12 @@ const platforms = [
       border-top: 1px solid var(--bg3);
       padding: 2rem;
       text-align: center;
-      color: var(--fg3);
+      color: var(--fg2);
       font-size: 0.85rem;
     }
-    footer a { color: var(--fg3); }
-    footer a:hover { color: var(--accent); }
+    footer a { color: var(--fg2) !important; text-decoration: none !important; }
+    footer a:hover { color: var(--accent) !important; }
+    .footer-copy { color: var(--fg3); margin-top: 0.5rem; font-size: 0.8rem; }
   </style>
 
   <!-- NAV -->
@@ -408,5 +409,9 @@ const platforms = [
       &nbsp;·&nbsp;
       <a href={`${githubRepo}/releases`} target="_blank" rel="noopener">Releases</a>
     </p>
+    <p class="footer-copy">© <span id="copy-year"></span> GitNarwhal contributors</p>
   </footer>
+  <script>
+    document.getElementById('copy-year').textContent = new Date().getFullYear().toString();
+  </script>
 </Layout>
