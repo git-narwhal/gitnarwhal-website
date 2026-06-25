@@ -1,0 +1,45 @@
+name: Build and deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Astro site
+        run: npm run build
+
+      - name: Deploy to GitHub Pages branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          cd dist
+
+          git init
+          git config user.name "forgejo-ci"
+          git config user.email "ci@forgejo"
+
+          git checkout --orphan website
+          git add -A
+          git commit -m "Deploy: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+
+          # Push to GitHub — requires GH_PAT secret with repo write access
+          git remote add github https://x-access-token:${GH_PAT}@github.com/git-narwhal/gitnarwhal-website.git
+          git push github website --force
