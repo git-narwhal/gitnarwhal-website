@@ -23,7 +23,7 @@ const base = import.meta.env.BASE_URL;
     <meta property="og:description" content={description} />
     <meta property="og:image" content={`${base}icon.png`} />
     <link rel="icon" type="image/png" href={`${base}icon.png`} />
-    <style>
+    <style is:global>
       :root {
         --bg: #2e3440;
         --bg2: #3b4252;
